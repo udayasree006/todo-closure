@@ -20,6 +20,7 @@
   "homepage": "https://github.com/udayasree006/todo-closure#readme",
   "devDependencies": {
     "husky": "^9.1.7",
-    "jest": "^30.5.1"
+    "jest": "^30.5.1",
+    "prettier": "^3.9.6"
   }
 }
