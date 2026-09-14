@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ext js,ejs server.js",
+    "start": "node server.js",
     "test": "jest",
     "prepare": "husky"
   },
