@@ -27,26 +27,28 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async overdue() {
-      const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
-      return await Todo.findAll({
-        where: {
-          dueDate: {
-            [sequelize.Sequelize.Op.lt]: today,
-          },
-        },
-      });
-    }
+  return await Todo.findAll({
+    where: {
+      completed: false,
+      dueDate: {
+        [sequelize.Sequelize.Op.lt]: today,
+      },
+    },
+  });
+}
 
-    static async dueToday() {
-      const today = new Date().toISOString().split("T")[0];
+   static async dueToday() {
+  const today = new Date().toISOString().split("T")[0];
 
-      return await Todo.findAll({
-        where: {
-          dueDate: today,
-        },
-      });
-    }
+  return await Todo.findAll({
+    where: {
+      completed: false,
+      dueDate: today,
+    },
+  });
+}
 
     static async dueLater() {
       const today = new Date().toISOString().split("T")[0];
@@ -59,21 +61,29 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+    static async completed() {
+  return await Todo.findAll({
+    where: {
+      completed: true,
+    },
+  });
+}
 
-    static async markAsComplete(id) {
-      const todo = await Todo.findOne({
-        where: {
-          id,
-        },
-      });
+    static async setCompletionStatus(id, completed) {
+  const todo = await Todo.findOne({
+    where: {
+      id,
+    },
+  });
 
-      if (todo) {
-        todo.completed = true;
-        await todo.save();
-      }
+  if (todo) {
+    todo.completed = completed;
+    await todo.save();
+  }
 
-      return todo;
-    }
+  return todo;
+}
+  
 
     static associate(models) {
       // define association here

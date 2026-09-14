@@ -9,6 +9,7 @@
           type="checkbox"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
           <%= todo.completed ? "checked" : "" %>
+          onchange="completeTodo(<%= todo.id %>, this)"
         />
 
         <label
@@ -21,40 +22,79 @@
         <span class="ml-2 text-xs text-gray-400">
           <%= todo.dueDate %>
         </span>
-<a
-  class="hidden trash-icon ml-3 text-gray-400 hover:text-red-500"
-  href="#"
-  onclick="deleteTodo(<%= todo.id %>); return false;"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="h-4 w-4"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    stroke-width="2"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m-4 0h14"
-    />
-  </svg>
-</a>
+
+        <a
+          class="hidden trash-icon ml-3 text-gray-400 hover:text-red-500"
+          href="#"
+          onclick="deleteTodo(<%= todo.id %>); return false;"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m-4 0h14"
+            />
+          </svg>
+        </a>
       </div>
     </li>
   <% }); %>
 </ul>
+
 <script>
   async function deleteTodo(id) {
-    const response = await fetch(`/todos/${id}`, {
-      method: "DELETE",
-    });
+  const tokenResponse = await fetch("/csrf-token");
+  const { csrfToken } = await tokenResponse.json();
+
+  const response = await fetch(`/todos/${id}`, {
+    method: "DELETE",
+    headers: {
+      "CSRF-Token": csrfToken,
+    },
+  });
+
+  if (response.ok) {
+    window.location.reload();
+  } else {
+    alert("Failed to delete todo");
+  }
+}
 
     if (response.ok) {
       window.location.reload();
     } else {
       alert("Failed to delete todo");
     }
+  
+  async function completeTodo(id, checkbox) {
+  const tokenResponse = await fetch("/csrf-token");
+  const { csrfToken } = await tokenResponse.json();
+
+  const response = await fetch(`/todos/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "CSRF-Token": csrfToken,
+    },
+    body: JSON.stringify({
+      completed: checkbox.checked,
+    }),
+  });
+
+  if (response.ok) {
+    window.location.reload();
+  } else {
+    alert("Failed to update todo");
+    checkbox.checked = !checkbox.checked;
   }
+}
+
+  
 </script>
