@@ -1,9 +1,10 @@
 body {
   font-family: sans-serif;
-  background: #cccccc;
-  margin: 40px;
+  background: #ffffff;
 }
-
+.todo-item:hover .trash-icon {
+  display: block;
+}
 h1 {
   text-align: center;
 }

@@ -50,6 +50,21 @@ app.get("/", async (request, response) => {
   }
 });
 
+app.put("/todos/:id/complete", async (request, response) => {
+  try {
+    const todo = await db.Todo.markAsComplete(request.params.id);
+
+    if (!todo) {
+      return response.status(404).json(false);
+    }
+
+    response.json(true);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json(false);
+  }
+});
+
 if (require.main === module) {
   app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");

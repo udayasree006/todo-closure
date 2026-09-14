@@ -5,21 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo Application</title>
     <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body>
-    <h1>My Todo Application</h1>
+    <div class="grid grid-cols-6">
+      <div class="col-start-3 col-span-2">
+        <h1 class="text-2xl font-semibold text-gray-600">My Todo-list</h1>
+        <form>
+          <div class="flex gap-2 py-4">
+            <div class="flex-auto w-64">
+              <input
+                type="text"
+                class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2"
+                placeholder="What's next?"
+                autofocus
+                required
+              />
+            </div>
 
-    <h2>Overdue (<%= overdue.length %>)</h2>
+            <div class="flex-auto w-32">
+              <input
+                type="date"
+                class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2 leading-4"
+              />
+            </div>
 
-    <%- include("todos.ejs", { todos: overdue }) %>
+            <div class="flex-none">
+              <button
+                type="submit"
+                class="text-white bg-green-600 hover:bg-green-700 font-medium rounded text-sm px-5 py-2"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </form>
 
-    <h2>Due Today (<%= dueToday.length %>)</h2>
+        <h5 class="text-gray-700 font-medium mt-4">
+          Overdue (<%= overdue.length %>)
+        </h5>
 
-    <%- include("todos.ejs", { todos: dueToday }) %>
+        <%- include("todos.ejs", { todos: overdue }) %>
 
-    <h2>Due Later (<%= dueLater.length %>)</h2>
+        <h5 class="text-gray-700 font-medium mt-4">
+          Due Today (<%= dueToday.length %>)
+        </h5>
 
-    <%- include("todos.ejs", { todos: dueLater }) %>
+        <%- include("todos.ejs", { todos: dueToday }) %>
+
+        <h5 class="text-gray-700 font-medium mt-4">
+          Due Later (<%= dueLater.length %>)
+        </h5>
+
+        <%- include("todos.ejs", { todos: dueLater }) %>
+      </div>
+    </div>
   </body>
 </html>
