@@ -1,0 +1,8 @@
+<ul>
+  <% todos.forEach((todo) => { %>
+  <li>
+    <%= todo.completed ? "[x]" : "[]" %> <%= todo.title %> <% if (todo.dueDate)
+    { %> - <%= todo.dueDate %> <% } %>
+  </li>
+  <% }); %>
+</ul>

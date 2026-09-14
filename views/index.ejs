@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo Application</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+
+  <body>
+    <h1>My Todo Application</h1>
+
+    <h2>Overdue (<%= overdue.length %>)</h2>
+
+    <%- include("todos.ejs", { todos: overdue }) %>
+
+    <h2>Due Today (<%= dueToday.length %>)</h2>
+
+    <%- include("todos.ejs", { todos: dueToday }) %>
+
+    <h2>Due Later (<%= dueLater.length %>)</h2>
+
+    <%- include("todos.ejs", { todos: dueLater }) %>
+  </body>
+</html>
